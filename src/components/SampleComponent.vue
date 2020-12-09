@@ -24,25 +24,20 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-
 @Component
 export default class SampleComponent extends Vue{
   // Props
   @Prop({ default: "Hello World" }) msg: string;
-
   // Data
   count = 0;
-
   // Computed
   get NextCount(): number{
     return this.count + 1;
   }
-
   // methods
   add(){
     this.count++;
   }
-
   // lifecycle hooks
   created(){
     console.log("[SampleComponent.vue] created");
