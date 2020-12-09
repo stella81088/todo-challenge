@@ -48,11 +48,12 @@ export default Vue.extend({
 
   .task-label{
     margin-top:-24px;
-    margin-left: 45px;
+    margin-left: 50px;
   }
   .task-edit{
-    margin-top:-20px;
-    margin-left:-24px;
+    display:flex;
+    margin-top:-23px;
+    margin-left:55px;
   }
 
   .list-tasks{
@@ -77,6 +78,7 @@ export default Vue.extend({
   .not-fav-task{
     cursor: pointer;
     flex-grow: 1;
+
     margin-top:-25px;
     margin-left:24px;
   }
