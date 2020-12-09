@@ -4,39 +4,88 @@
       <v-col cols="12" class="mb-6 projectTitle">
         {{ msg }}
       </v-col>
-
     </v-row>
     <div class="text-center">
-      <input class="inputTask" type="text" name="something" placeholder="Enter Task" v-model="newTask"/>
-        <v-btn style="margin-left:10px;" @click="add">
-          <v-icon>
-            mdi-plus
-          </v-icon>
-          Add
-        </v-btn>
+      <input
+        class="inputTask"
+        type="text"
+        name="something"
+        placeholder="Enter Task"
+        v-model="newTask"
+      />
+      <v-btn style="margin-left: 10px" @keyup.enter="add" @click="add">
+        <v-icon> mdi-plus </v-icon>
+        Add
+      </v-btn>
     </div>
-    <br>
-    <div class="list-tasks" v-for="(task,index) in array" :key="task.id">
-        <div class="text-center">
-            <input class="check" type="checkbox" v-model="task.completed" @click="completed(task)">
-            <div  v-if="!task.editStatus" @click="editTask(task)" class="task-label" :class="{completed : task.completed}">
-            {{task.title}} 
-            </div>
-            <input v-else class="task-edit" type="text" v-model="task.title" @blur="doneEdit(task)" @keyup.enter="doneEdit(task)" @keyup.esc="cancelEdit(task)">
-        </div>
-        
-        <div class="remove-task" @click="removeTask(index)">
-            &times;
-        </div>
+    <!-- heading -->
+    <div class="text-center heading">
+      <label
+        ><input type="checkbox" :checked="!isTask()" @change="checkAll()" /> Check
+        All</label
+      >
+      <div>{{ remainingTasks }} task(s) left</div>
+      <div>
+        <button
+          class="headingBtn"
+          :class="{ active: filter == 'all' }"
+          @click="filter = 'all'"
+        >
+          All Tasks
+        </button>
+        <button
+          class="headingBtn"
+          :class="{ active: filter == 'completed' }"
+          @click="filter = 'completed'"
+        >
+          Completed Tasks
+        </button>
+        <button
+          class="headingBtn"
+          :class="{ active: filter == 'remain' }"
+          @click="filter = 'remain'"
+        >
+          Active Tasks
+        </button>
+      </div>
+    </div>
 
+    <!-- filtering the tasks -->
+    <div class="list-tasks" v-for="(task, index) in filtered()" :key="task.id">
+      <div class="keep-same">
+        <input
+          class="check"
+          type="checkbox"
+          v-model="task.completed"
+          @click="completed(task)"
+        />
+        <div
+          v-if="!task.editStatus"
+          @click="editTask(task)"
+          class="task-label"
+          :class="{ completed: task.completed }"
+        >
+          {{ task.title }}
+        </div>
+        <input
+          v-else
+          class="task-edit"
+          type="text"
+          v-model="task.title"
+          @blur="doneEdit(task)"
+          @keyup.enter="doneEdit(task)"
+          @keyup.esc="cancelEdit(task)"
+        />
+      </div>
+
+      <div class="remove-task" @click="removeTask(index)">&times;</div>
     </div>
-    <br>
+    <br />
+
     <div v-if="showBtn()" class="completeBtn" @click="removeAllComp()">
-        <button>Clear completed</button>
+      <button>Clear completed</button>
     </div>
   </v-container>
-  
-  
 </template>
 
 <script lang="ts">
@@ -47,62 +96,89 @@ export default class SampleComponent extends Vue {
   @Prop({ default: "Hello World" }) msg: string;
   // Data
   count = 0;
-  newTask = '';
-  array = [];   
-  editCache = '';
+  checked = false;
+  newTask = "";
+  array = [];
+  editCache = "";
+  filter = "all";
   // Computed
   get NextCount(): number {
     return this.count + 1;
   }
+  get remainingTasks(): number {
+    return this.array.filter((task) => !task.completed).length;
+  }
+
+  filtered() {
+    if (this.filter == "all") {
+      return this.array;
+    } else if (this.filter == "completed") {
+      return this.array.filter((task) => task.completed);
+    } else if (this.filter == "remain") {
+      return this.array.filter((task) => !task.completed);
+    }
+  }
   // methods
   add() {
-    
-      if (this.newTask !== ''){ //check if task is empty or not
-          this.array.push({
-              id: this.count,
-              title: this.newTask,
-              show: true,
-              completed: false,
-              editStatus: false,
-          })
-          this.count++;
-          this.newTask = '';
-          
-      }
+    if (this.newTask !== "") {
+      //check if task is empty or not
+      this.array.push({
+        id: this.count,
+        title: this.newTask,
+        show: true,
+        completed: false,
+        editStatus: false,
+      });
+      this.count++;
+      this.newTask = "";
+    }
   }
-  removeTask(index){
-      this.array.splice(index,1) //remove one item
-  }
-
- //edit task
-  editTask(task){
-      task.editStatus = true
-      this.editCache = task.title
+  removeTask(index) {
+    this.array.splice(index, 1); //remove one item
   }
 
-  doneEdit(task){
-      if (task.title !== ''){
-          task.editStatus = false
-      }else{
-          task.title = this.editCache
-      }
+  //edit task
+  editTask(task) {
+    task.editStatus = true;
+    this.editCache = task.title;
   }
 
-  cancelEdit(task){
-      task.editStatus = false
-      task.title = this.editCache
+  doneEdit(task) {
+    if (task.title !== "") {
+      task.editStatus = false;
+    } else {
+      task.title = this.editCache;
+    }
   }
 
-  showBtn(){
-      if ((this.array.filter(task => task.completed)).length>0){
-          return true
-      }
-      
+  cancelEdit(task) {
+    task.editStatus = false;
+    task.title = this.editCache;
   }
 
-removeAllComp(){
-    this.array = this.array.filter(task => !task.completed)
-}
+  showBtn() { //clear completed btn
+    if (this.array.filter((task) => task.completed).length > 0) {
+      return true;
+    }
+  }
+
+  removeAllComp() { //remove all the completed ones
+    this.array = this.array.filter((task) => !task.completed);
+  }
+
+  isTask() {
+    return this.remainingTasks != 0;
+  }
+
+  checkAll() {
+    if (this.checked == false) {
+      this.checked = true;
+      this.array.forEach((task) => (task.completed = this.checked));
+    } else {
+      this.checked = false;
+      this.array.forEach((task) => (task.completed = this.checked));
+    }
+  }
   // lifecycle hooks
   created() {
     console.log("[SampleComponent.vue] created");

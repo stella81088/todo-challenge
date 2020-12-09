@@ -24,6 +24,7 @@ export default Vue.extend({
 </script>
 
 <style>
+@import url("https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css");
 #app{
   background-color:lightblue;
 }
@@ -44,10 +45,16 @@ export default Vue.extend({
     margin-right: 40px;
     margin-top:5px;
   }
+
   .task-label{
-    margin-top: -25px;
-    margin-left: 40px;
+    margin-top:-25px;
+    margin-left: 25px;
   }
+  .task-edit{
+    margin-top:-20px;
+    margin-left:-24px;
+  }
+
   .list-tasks{
     display: flex;
     background-color: white;
@@ -67,10 +74,21 @@ export default Vue.extend({
     margin-right:10px;
   }
 
-  .task-edit{
-    width: 150%;
-    display:relative;
+  .heading{
+    margin-top:5px;
+    margin-bottom: 5px;
+  }  
 
+  .headingBtn{
+    margin-left:5px;
+    margin-right:5px;
+    background-color: white;
+    padding: 2px;
+    border-radius: 5px;
+  }
+
+  .active{
+    background-color: lightcyan;
   }
 
   .completed{
@@ -86,5 +104,13 @@ export default Vue.extend({
     border-radius: 5px;
     float:right;
     width: 200px;
+  }
+
+  .fade-enter-active .fade-leave-active {
+    transition: opacity 1s;
+  }
+
+  .fade-enter, .fade-leave-to {
+    opacity:0;
   }
 </style>
