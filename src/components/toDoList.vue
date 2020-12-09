@@ -5,20 +5,27 @@
         {{ msg }}
       </v-col>
     </v-row>
-    <div class="text-center">
+
+  
+    <div class="text-center ">
+
+        
       <input
         class="inputTask"
         type="text"
         name="something"
         placeholder="Enter Task"
         v-model="newTask"
+        
       />
-      <v-btn style="margin-left: 10px" @keyup.enter="add" @click="add">
+      
+      <v-btn style="margin-left: 10px" @click="add">
         <v-icon> mdi-plus </v-icon>
         Add
       </v-btn>
     </div>
     <!-- heading -->
+    
     <div class="text-center heading">
       <label
         ><input type="checkbox" :checked="!isTask()" @change="checkAll()" /> Check
@@ -47,6 +54,13 @@
         >
           Active Tasks
         </button>
+        <button
+          class="headingBtn"
+          :class="{ active: filter == 'fav' }"
+          @click="filter = 'fav'"
+        >
+          Important
+        </button>
       </div>
     </div>
 
@@ -59,6 +73,14 @@
           v-model="task.completed"
           @click="completed(task)"
         />
+
+         <!-- <div class="fav-task" @click="favTask(task)">&star;</div> -->
+         <div class="not-fav-task" @click="favTask(task)" v-if="!task.fav">
+            &star;
+         </div>
+         <div class="fav-task" @click="favTask(task)" v-else>
+            &star;
+         </div>
         <div
           v-if="!task.editStatus"
           @click="editTask(task)"
@@ -77,7 +99,7 @@
           @keyup.esc="cancelEdit(task)"
         />
       </div>
-
+     
       <div class="remove-task" @click="removeTask(index)">&times;</div>
     </div>
     <br />
@@ -101,6 +123,7 @@ export default class SampleComponent extends Vue {
   array = [];
   editCache = "";
   filter = "all";
+  index = 0;
   // Computed
   get NextCount(): number {
     return this.count + 1;
@@ -116,6 +139,8 @@ export default class SampleComponent extends Vue {
       return this.array.filter((task) => task.completed);
     } else if (this.filter == "remain") {
       return this.array.filter((task) => !task.completed);
+    }else if (this.filter == "fav") {
+      return this.array.filter((task) => task.fav);
     }
   }
   // methods
@@ -128,6 +153,7 @@ export default class SampleComponent extends Vue {
         show: true,
         completed: false,
         editStatus: false,
+        fav: false,
       });
       this.count++;
       this.newTask = "";
@@ -136,6 +162,7 @@ export default class SampleComponent extends Vue {
   removeTask(index) {
     this.array.splice(index, 1); //remove one item
   }
+
 
   //edit task
   editTask(task) {
@@ -162,6 +189,15 @@ export default class SampleComponent extends Vue {
     }
   }
 
+  favTask(task){
+      if (task.fav == false){
+          task.fav = true
+          
+      } else{
+          task.fav = false
+      }
+     
+  }
   removeAllComp() { //remove all the completed ones
     this.array = this.array.filter((task) => !task.completed);
   }
