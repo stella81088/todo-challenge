@@ -16,7 +16,7 @@
         name="something"
         placeholder="Enter Task"
         v-model="newTask"
-        
+        @keyup.enter="add"
       />
       
       <v-btn style="margin-left: 10px" @click="add">
@@ -71,7 +71,6 @@
           class="check"
           type="checkbox"
           v-model="task.completed"
-          @click="completed(task)"
         />
 
          <!-- <div class="fav-task" @click="favTask(task)">&star;</div> -->
@@ -79,7 +78,7 @@
             &star;
          </div>
          <div class="fav-task" @click="favTask(task)" v-else>
-            &star;
+            &#9733;
          </div>
         <div
           v-if="!task.editStatus"

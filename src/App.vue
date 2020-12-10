@@ -85,7 +85,7 @@ export default Vue.extend({
     flex-grow: 1;
     margin-top:-25px;
     margin-left:24px;
-    color: red;
+    color: black;
   }
 
 
