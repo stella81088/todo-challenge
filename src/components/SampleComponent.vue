@@ -28,6 +28,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 export default class SampleComponent extends Vue{
   // Props
   @Prop({ default: "Hello World" }) msg: string;
+
   // Data
   count = 0;
   // Computed
