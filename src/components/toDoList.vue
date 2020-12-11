@@ -65,7 +65,6 @@
       <div class="keep-same">
         <input class="check" type="checkbox" v-model="task.completed" />
 
-        <!-- <div class="fav-task" @click="favTask(task)">&star;</div> -->
         <div class="not-fav-task" @click="favTask(task)" v-if="!task.fav">
           &star;
         </div>
