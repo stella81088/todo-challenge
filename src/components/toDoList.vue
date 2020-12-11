@@ -108,7 +108,6 @@ export default class SampleComponent extends Vue {
   // Props
   @Prop({ default: "Hello World" }) msg: string;
   // Data
-
   count = 0;
   checked = false;
   newTask = "";
@@ -116,7 +115,6 @@ export default class SampleComponent extends Vue {
   editCache = "";
   filter = "all";
   // index = 0;
-
   // Computed
   get NextCount(): number {
     return this.count + 1;
@@ -124,7 +122,6 @@ export default class SampleComponent extends Vue {
   get remainingTasks(): number {
     return this.array.filter((task) => !task.completed).length;
   }
-
   filtered() {
     if (this.filter == "all") {
       return this.array;
@@ -157,13 +154,11 @@ export default class SampleComponent extends Vue {
   removeTask(index) {
     this.array.splice(index, 1); //remove one item
   }
-
   //edit task
   editTask(task) {
     task.editStatus = true;
     this.editCache = task.title;
   }
-
   doneEdit(task) {
     if (task.title !== "") {
       task.editStatus = false;
@@ -171,19 +166,16 @@ export default class SampleComponent extends Vue {
       task.title = this.editCache;
     }
   }
-
   cancelEdit(task) {
     task.editStatus = false;
     task.title = this.editCache;
   }
-
   showBtn() {
     //clear completed btn
     if (this.array.filter((task) => task.completed).length > 0) {
       return true;
     }
   }
-
   favTask(task) {
     if (task.fav == false) {
       task.fav = true;
@@ -195,11 +187,9 @@ export default class SampleComponent extends Vue {
     //remove all the completed ones
     this.array = this.array.filter((task) => !task.completed);
   }
-
   isTask() {
     return this.remainingTasks != 0;
   }
-
   checkAll() {
     if (this.checked == false) {
       this.checked = true;
