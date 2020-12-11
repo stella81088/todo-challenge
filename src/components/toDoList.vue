@@ -2,7 +2,7 @@
   <v-container>
     <v-row class="text-center">
       <v-col cols="12" class="mb-6 projectTitle">
-        {{ msg }}
+        {{ msg }} - Stella Li
       </v-col>
     </v-row>
 
