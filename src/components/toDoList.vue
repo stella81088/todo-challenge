@@ -79,7 +79,7 @@
             &star;
          </div>
          <div class="fav-task" @click="favTask(task)" v-else>
-            &star;
+            &#9733;
          </div>
         <div
           v-if="!task.editStatus"
