@@ -69,7 +69,9 @@
         <div class="not-fav-task" @click="favTask(task)" v-if="!task.fav">
           &star;
         </div>
-        <div class="fav-task" @click="favTask(task)" v-else>&#9733;</div>
+        <div class="fav-task" @click="favTask(task)" v-else>
+          &#9733;
+        </div>
         <div
           v-if="!task.editStatus"
           @click="editTask(task)"
